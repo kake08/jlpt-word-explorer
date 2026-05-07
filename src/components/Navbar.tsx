@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useSearchParams } from 'react-router-dom'
+import { withExploreLevel } from '../utils/exploreLevelParams'
 
 const navItems = [
   { label: 'Home', to: '/' },
@@ -7,20 +8,22 @@ const navItems = [
 ]
 
 export function Navbar() {
+  const [searchParams] = useSearchParams()
+
   return (
     <header className="sticky top-0 z-20 border-b border-stone-200 bg-linen/90 backdrop-blur">
       <nav className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-6 px-5 sm:px-8">
         <NavLink
-          to="/"
+          to={withExploreLevel('/', searchParams)}
           className="text-sm font-semibold tracking-[0.08em] text-ink transition hover:text-clay"
         >
-          Japanese Knowledge Explorer
+          Japanese Vocab Explorer - 言葉の探検
         </NavLink>
         <div className="flex items-center gap-1 rounded-[8px] border border-stone-200 bg-paper p-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
-              to={item.to}
+              to={withExploreLevel(item.to, searchParams)}
               className={({ isActive }) =>
                 `rounded-[6px] px-3 py-2 text-sm font-medium transition ${
                   isActive

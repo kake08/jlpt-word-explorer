@@ -4,9 +4,14 @@ import { StatusBadge } from './StatusBadge'
 type WordCardProps = {
   word: VocabularyWord
   featured?: boolean
+  showRomaji?: boolean
 }
 
-export function WordCard({ word, featured = false }: WordCardProps) {
+export function WordCard({
+  word,
+  featured = false,
+  showRomaji = true,
+}: WordCardProps) {
   if (featured) {
     return (
       <article className="mx-auto w-full max-w-xl rounded-[8px] border border-stone-200 bg-paper px-8 py-10 text-center shadow-subtle">
@@ -17,6 +22,11 @@ export function WordCard({ word, featured = false }: WordCardProps) {
           {word.kanji}
         </h2>
         <p className="mt-5 text-xl text-stone-700">{word.kana}</p>
+        {showRomaji && word.romaji ? (
+          <p className="mt-1 text-sm font-medium uppercase tracking-[0.12em] text-stone-400">
+            {word.romaji}
+          </p>
+        ) : null}
         <p className="mt-2 text-lg text-stone-500">"{word.meaning}"</p>
       </article>
     )
@@ -30,6 +40,11 @@ export function WordCard({ word, featured = false }: WordCardProps) {
             {word.kanji}
           </h3>
           <p className="mt-3 text-sm text-stone-500">{word.kana}</p>
+          {showRomaji && word.romaji ? (
+            <p className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-stone-400">
+              {word.romaji}
+            </p>
+          ) : null}
         </div>
         <span className="rounded-[4px] border border-stone-200 bg-linen px-2 py-1 text-xs font-medium text-stone-700">
           {word.level}
