@@ -10,10 +10,4 @@ export type VocabularyWord = {
   status?: LearningStatus
 }
 
-export const progressStats = [
-  { label: 'Know', value: 48 },
-  { label: 'Familiar', value: 72 },
-  { label: 'Learning', value: 26 },
-]
-
 export const relatedWords = ['能力', '力量', '実験']

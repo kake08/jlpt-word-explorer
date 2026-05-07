@@ -3,16 +3,23 @@ import { PageContainer } from '../components/PageContainer'
 import { SectionHeader } from '../components/SectionHeader'
 import { StatCard } from '../components/StatCard'
 import { WordCard } from '../components/WordCard'
-import { progressStats } from '../data/vocabulary'
+import type { LearningStatus } from '../data/vocabulary'
 import { useVocabStore } from '../stores/vocabStore'
 import { withExploreLevel } from '../utils/exploreLevelParams'
+
+const learningStatuses: LearningStatus[] = ['Know', 'Familiar', 'Learning']
 
 export function Home() {
   const [searchParams] = useSearchParams()
   const recentGeneratedWords = useVocabStore(
     (state) => state.recentGeneratedWords,
   )
+  const savedWords = useVocabStore((state) => state.savedWords)
   const displayedRecentWords = recentGeneratedWords.slice(0, 3)
+  const progressStats = learningStatuses.map((status) => ({
+    label: status,
+    value: savedWords.filter((word) => word.status === status).length,
+  }))
 
   return (
     <PageContainer>
@@ -62,11 +69,13 @@ export function Home() {
         )}
       </section>
 
-      <section className="grid gap-4 py-2 md:grid-cols-3">
-        {progressStats.map((stat) => (
-          <StatCard key={stat.label} label={stat.label} value={stat.value} />
-        ))}
-      </section>
+      {savedWords.length > 0 ? (
+        <section className="grid gap-4 py-2 md:grid-cols-3">
+          {progressStats.map((stat) => (
+            <StatCard key={stat.label} label={stat.label} value={stat.value} />
+          ))}
+        </section>
+      ) : null}
 
       <section className="pt-10">
         <div className="rounded-[8px] border border-stone-200 bg-paper p-6 shadow-subtle sm:flex sm:items-center sm:justify-between">

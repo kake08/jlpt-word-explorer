@@ -20,6 +20,10 @@ export function Explore() {
   const [showRomaji, setShowRomaji] = useState(true)
   const currentWord = useVocabStore((state) => state.currentWord)
   const setGeneratedWord = useVocabStore((state) => state.setGeneratedWord)
+  const saveWord = useVocabStore((state) => state.saveWord)
+  const isCurrentWordSaved = useVocabStore((state) =>
+    state.isWordSaved(state.currentWord),
+  )
   const levelParam = searchParams.get('level')
   const selectedLevel = isLevelSelection(levelParam) ? levelParam : 'All'
   const generateWordMutation = useMutation({
@@ -35,6 +39,12 @@ export function Explore() {
 
   function handleGenerateWord() {
     generateWordMutation.mutate(selectedLevel)
+  }
+
+  function handleSaveWord() {
+    if (currentWord) {
+      saveWord(currentWord)
+    }
   }
 
   return (
@@ -104,9 +114,11 @@ export function Explore() {
           </button>
           <button
             type="button"
-            className="rounded-[6px] border border-stone-300 bg-paper px-5 py-3 text-sm font-medium text-ink transition hover:border-stone-400"
+            onClick={handleSaveWord}
+            disabled={!currentWord || isCurrentWordSaved}
+            className="rounded-[6px] border border-stone-300 bg-paper px-5 py-3 text-sm font-medium text-ink transition enabled:hover:border-stone-400 disabled:cursor-not-allowed disabled:border-stone-200 disabled:bg-stone-100 disabled:text-stone-400"
           >
-            Add to My Vocab
+            {isCurrentWordSaved ? 'Saved to My Vocab' : 'Add to My Vocab'}
           </button>
         </div>
       </section>
