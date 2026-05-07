@@ -8,6 +8,7 @@ export type VocabularyWord = {
   meaning: string
   level: JlptLevel
   status?: LearningStatus
+  timestamp?: number
 }
 
 export const relatedWords = ['能力', '力量', '実験']

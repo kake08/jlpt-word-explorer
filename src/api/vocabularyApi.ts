@@ -43,5 +43,6 @@ export async function fetchRandomWord(selectedLevel: JlptLevel | 'All'): Promise
     romaji: data.romaji,
     meaning: data.meaning,
     level: formatLevel(data.level),
+    timestamp: Date.now(),
   }
 }

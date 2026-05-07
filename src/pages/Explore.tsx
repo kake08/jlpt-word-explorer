@@ -1,22 +1,15 @@
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import { fetchRandomWord } from '../api/vocabularyApi'
 import { PageContainer } from '../components/PageContainer'
 import { SectionHeader } from '../components/SectionHeader'
 import { WordCard } from '../components/WordCard'
 import { relatedWords } from '../data/vocabulary'
+import { useExploreLevelParam } from '../hooks/useExploreLevelParam'
 import { useVocabStore } from '../stores/vocabStore'
 
-const levels = ['All', 'N5', 'N4', 'N3', 'N2', 'N1'] as const
-type LevelSelection = (typeof levels)[number]
-
-function isLevelSelection(value: string | null): value is LevelSelection {
-  return levels.includes(value as LevelSelection)
-}
-
 export function Explore() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const { levels, selectedLevel, setSelectedLevel } = useExploreLevelParam()
   const [showRomaji, setShowRomaji] = useState(true)
   const currentWord = useVocabStore((state) => state.currentWord)
   const setGeneratedWord = useVocabStore((state) => state.setGeneratedWord)
@@ -24,18 +17,12 @@ export function Explore() {
   const isCurrentWordSaved = useVocabStore((state) =>
     state.isWordSaved(state.currentWord),
   )
-  const levelParam = searchParams.get('level')
-  const selectedLevel = isLevelSelection(levelParam) ? levelParam : 'All'
   const generateWordMutation = useMutation({
     mutationFn: fetchRandomWord,
     onSuccess: setGeneratedWord,
   })
 
   const isLoading = generateWordMutation.isPending
-
-  function handleLevelSelect(level: LevelSelection) {
-    setSearchParams(level === 'All' ? {} : { level })
-  }
 
   function handleGenerateWord() {
     generateWordMutation.mutate(selectedLevel)
@@ -58,7 +45,7 @@ export function Explore() {
           <button
             key={level}
             type="button"
-            onClick={() => handleLevelSelect(level)}
+            onClick={() => setSelectedLevel(level)}
             className={`rounded-md border px-4 py-2 text-sm font-medium transition ${
               level === selectedLevel
                 ? 'border-ink bg-ink text-linen'

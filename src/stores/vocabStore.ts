@@ -15,6 +15,16 @@ function getWordKey(word: VocabularyWord) {
   return `${word.kanji}-${word.kana}`
 }
 
+function getTimestamp(word: VocabularyWord) {
+  return word.timestamp ?? 0
+}
+
+function sortNewestFirst(words: VocabularyWord[]) {
+  return [...words].sort((firstWord, secondWord) => {
+    return getTimestamp(secondWord) - getTimestamp(firstWord)
+  })
+}
+
 export const useVocabStore = create<VocabState>()(
   persist(
     (set, get) => ({
@@ -29,7 +39,10 @@ export const useVocabStore = create<VocabState>()(
 
           return {
             currentWord: word,
-            recentGeneratedWords: [word, ...dedupedWords].slice(0, 12),
+            recentGeneratedWords: sortNewestFirst([word, ...dedupedWords]).slice(
+              0,
+              12,
+            ),
           }
         }),
       saveWord: (word) =>
@@ -43,7 +56,10 @@ export const useVocabStore = create<VocabState>()(
           }
 
           return {
-            savedWords: [{ ...word, status: word.status ?? 'Learning' }, ...state.savedWords],
+            savedWords: sortNewestFirst([
+              { ...word, status: word.status ?? 'Learning' },
+              ...state.savedWords,
+            ]),
           }
         }),
       isWordSaved: (word) => {
