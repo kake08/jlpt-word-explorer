@@ -19,7 +19,7 @@ export function Navbar() {
         >
           Japanese Vocab Explorer - 言葉の探検
         </NavLink>
-        <div className="flex items-center gap-1 rounded-[8px] border border-stone-200 bg-paper p-1">
+        <div className="flex items-center gap-1 rounded-[2px] border border-stone-200 bg-paper p-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}

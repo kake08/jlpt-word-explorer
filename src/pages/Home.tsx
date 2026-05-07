@@ -47,7 +47,7 @@ export function Home() {
             ))}
           </div>
         ) : (
-          <div className="rounded-[8px] border border-dashed border-stone-300 bg-paper/80 p-8 shadow-subtle sm:flex sm:items-center sm:justify-between">
+          <div className="rounded-[2px] border border-dashed border-stone-300 bg-paper/80 p-8 shadow-subtle sm:flex sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-medium uppercase tracking-[0.16em] text-clay">
                 こんにちは!
@@ -78,7 +78,7 @@ export function Home() {
       ) : null}
 
       <section className="pt-10">
-        <div className="rounded-[8px] border border-stone-200 bg-paper p-6 shadow-subtle sm:flex sm:items-center sm:justify-between">
+        <div className="rounded-[2px] border border-stone-200 bg-paper p-6 shadow-subtle sm:flex sm:items-center sm:justify-between">
           <div>
             <h2 className="text-2xl font-medium text-ink">Continue Exploring</h2>
             <p className="mt-2 text-sm leading-6 text-stone-600">

@@ -14,7 +14,7 @@ export function WordCard({
 }: WordCardProps) {
   if (featured) {
     return (
-      <article className="mx-auto w-full max-w-xl rounded-[8px] border border-stone-200 bg-paper px-8 py-10 text-center shadow-subtle">
+      <article className="mx-auto w-full max-w-xl rounded-[2px] border border-stone-200 bg-paper px-8 py-10 text-center shadow-subtle">
         <div className="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-clay">
           {word.level}
         </div>
@@ -33,7 +33,7 @@ export function WordCard({
   }
 
   return (
-    <article className="rounded-[8px] border border-stone-200 bg-paper p-5 shadow-subtle transition duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-soft">
+    <article className="rounded-[2px] border border-stone-200 bg-paper p-5 shadow-subtle transition duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-soft">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h3 className="text-4xl font-medium leading-none text-ink">

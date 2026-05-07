@@ -70,7 +70,7 @@ export function Explore() {
         ))}
       </div>
 
-      <section className="rounded-lg border border-stone-200 bg-[#eee8dc] px-4 py-10 sm:px-8">
+      <section className="rounded-[2px] border border-stone-200 bg-[#eee8dc] px-4 py-10 sm:px-8">
         <div className="mb-6 flex justify-center">
           <label className="inline-flex items-center gap-3 rounded-[6px] border border-stone-200 bg-paper px-4 py-2 text-sm font-medium text-stone-600 shadow-subtle">
             <input
@@ -86,7 +86,7 @@ export function Explore() {
         {currentWord ? (
           <WordCard word={currentWord} featured showRomaji={showRomaji} />
         ) : (
-          <div className="mx-auto w-full max-w-xl rounded-[8px] border border-dashed border-stone-300 bg-paper/80 px-8 py-12 text-center shadow-subtle">
+          <div className="mx-auto w-full max-w-xl rounded-[2px] border border-dashed border-stone-300 bg-paper/80 px-8 py-12 text-center shadow-subtle">
             <p className="text-sm font-medium uppercase tracking-[0.16em] text-clay">
               こんにちは!
             </p>
