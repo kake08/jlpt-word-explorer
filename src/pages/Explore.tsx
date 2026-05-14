@@ -71,7 +71,12 @@ export function Explore() {
         </div>
 
         {currentWord ? (
-          <WordCard word={currentWord} featured showRomaji={showRomaji} />
+          <WordCard
+            key={`${currentWord.kanji}-${currentWord.kana}`}
+            word={currentWord}
+            featured
+            showRomaji={showRomaji}
+          />
         ) : (
           <div className="mx-auto w-full max-w-xl rounded-[2px] border border-dashed border-stone-300 bg-paper/80 px-8 py-12 text-center shadow-subtle">
             <p className="text-sm font-medium uppercase tracking-[0.16em] text-clay">

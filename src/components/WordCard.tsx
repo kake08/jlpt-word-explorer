@@ -1,3 +1,5 @@
+import { useMutation } from '@tanstack/react-query'
+import { fetchSentenceExample } from '../api/vocabularyApi'
 import type { VocabularyWord } from '../data/vocabulary'
 import { StatusBadge } from './StatusBadge'
 
@@ -12,6 +14,44 @@ export function WordCard({
   featured = false,
   showRomaji = true,
 }: WordCardProps) {
+  const sentenceExampleMutation = useMutation({
+    mutationFn: () => fetchSentenceExample(word.kana || word.kanji),
+  })
+  const sentenceExample = sentenceExampleMutation.data
+  const isLoadingSentence = sentenceExampleMutation.isPending
+
+  const sentenceExampleControls = (
+    <div className={featured ? 'mt-6' : 'mt-5'}>
+      <button
+        type="button"
+        onClick={() => sentenceExampleMutation.mutate()}
+        disabled={isLoadingSentence}
+        className="rounded-[6px] border border-stone-300 bg-linen px-4 py-2 text-sm font-medium text-ink transition enabled:hover:border-stone-400 enabled:hover:bg-paper disabled:cursor-not-allowed disabled:text-stone-400"
+      >
+        {isLoadingSentence ? 'Finding sentence...' : 'Generate sentence'}
+      </button>
+
+      {sentenceExample ? (
+        <div
+          className={
+            featured
+              ? 'mx-auto mt-4 max-w-md space-y-2 text-base leading-7'
+              : 'mt-4 space-y-2 text-sm leading-6'
+          }
+        >
+          <p className="text-stone-700">{sentenceExample.sentence}</p>
+          <p className="text-stone-500">"{sentenceExample.translation}"</p>
+        </div>
+      ) : null}
+
+      {sentenceExampleMutation.isError ? (
+        <p className="mt-3 text-sm font-medium text-red-800">
+          {sentenceExampleMutation.error.message}
+        </p>
+      ) : null}
+    </div>
+  )
+
   if (featured) {
     return (
       <article className="mx-auto w-full max-w-xl rounded-[2px] border border-stone-200 bg-paper px-8 py-10 text-center shadow-subtle">
@@ -28,6 +68,7 @@ export function WordCard({
           </p>
         ) : null}
         <p className="mt-2 text-lg text-stone-500">"{word.meaning}"</p>
+        {sentenceExampleControls}
       </article>
     )
   }
@@ -56,6 +97,7 @@ export function WordCard({
           <StatusBadge status={word.status} />
         </div>
       ) : null}
+      {sentenceExampleControls}
     </article>
   )
 }
