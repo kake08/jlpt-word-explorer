@@ -23,8 +23,8 @@ export function MyVocab() {
   return (
     <PageContainer>
       <SectionHeader
-        title="My Vocab"
-        description="A static preview of the personal vocabulary tracker, ready for saved words and review states later."
+        title="私の日本語の言葉"
+        description="Your collection of saved words for review"
       />
 
       <FilterBar

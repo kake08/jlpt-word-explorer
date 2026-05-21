@@ -26,15 +26,14 @@ export function Home() {
       <section className="grid gap-10 border-b border-stone-200 pb-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
         <div>
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-clay">
-            Japanese Vocab Explorer - ことばのたんけん
+            ことばのたんけん
           </p>
           <h1 className="mt-4 max-w-3xl text-5xl font-medium leading-tight text-ink sm:text-6xl">
-            Explore and track Japanese vocabulary.
+            いらしゃいませ！
           </h1>
         </div>
         <p className="max-w-lg text-lg leading-8 text-stone-600">
-          A quiet workspace for reviewing words, noticing connections, and
-          shaping a personal vocabulary path.
+          よろしくあえがいします！おげんきですか？
         </p>
       </section>
 
@@ -82,7 +81,7 @@ export function Home() {
           <div>
             <h2 className="text-2xl font-medium text-ink">Continue Exploring</h2>
             <p className="mt-2 text-sm leading-6 text-stone-600">
-              Open the discovery view and work with a featured JLPT word.
+              もとにほんごで話して！ーー　頑張ってね　:)
             </p>
           </div>
           <Link

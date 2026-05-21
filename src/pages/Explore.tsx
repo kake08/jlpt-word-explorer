@@ -37,8 +37,8 @@ export function Explore() {
   return (
     <PageContainer>
       <SectionHeader
-        title="Explore Vocabulary"
-        description="Move through JLPT vocabulary at a measured pace and collect words for later review."
+        title="探検する　（たんけんする）"
+        description="Grow your collection of vocabulary."
       />
       <div className="mb-8 flex flex-wrap gap-2">
         {levels.map((level) => (
