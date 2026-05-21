@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { VocabularyWord } from '../data/vocabulary'
+import type { LearningStatus, VocabularyWord } from '../data/vocabulary'
 
 type VocabState = {
   currentWord: VocabularyWord | null
@@ -8,6 +8,7 @@ type VocabState = {
   savedWords: VocabularyWord[]
   setGeneratedWord: (word: VocabularyWord) => void
   saveWord: (word: VocabularyWord) => void
+  updateWordStatus: (word: VocabularyWord, status: LearningStatus) => void
   isWordSaved: (word: VocabularyWord | null) => boolean
 }
 
@@ -60,6 +61,23 @@ export const useVocabStore = create<VocabState>()(
               { ...word, status: word.status ?? 'Learning' },
               ...state.savedWords,
             ]),
+          }
+        }),
+      updateWordStatus: (word, status) =>
+        set((state) => {
+          const wordKey = getWordKey(word)
+          const applyStatus = (savedWord: VocabularyWord) =>
+            getWordKey(savedWord) === wordKey
+              ? { ...savedWord, status }
+              : savedWord
+
+          return {
+            currentWord:
+              state.currentWord && getWordKey(state.currentWord) === wordKey
+                ? { ...state.currentWord, status }
+                : state.currentWord,
+            recentGeneratedWords: state.recentGeneratedWords.map(applyStatus),
+            savedWords: state.savedWords.map(applyStatus),
           }
         }),
       isWordSaved: (word) => {

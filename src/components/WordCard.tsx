@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { fetchSentenceExample } from '../api/vocabularyApi'
 import type { VocabularyWord } from '../data/vocabulary'
+import { useVocabStore } from '../stores/vocabStore'
 import { StatusBadge } from './StatusBadge'
 
 type WordCardProps = {
@@ -14,11 +15,13 @@ export function WordCard({
   featured = false,
   showRomaji = true,
 }: WordCardProps) {
+  const updateWordStatus = useVocabStore((state) => state.updateWordStatus)
   const sentenceExampleMutation = useMutation({
     mutationFn: () => fetchSentenceExample(word.kana || word.kanji),
   })
   const sentenceExample = sentenceExampleMutation.data
   const isLoadingSentence = sentenceExampleMutation.isPending
+  const status = word.status ?? 'Learning'
 
   const sentenceExampleControls = (
     <div className={featured ? 'mt-6' : 'mt-5'}>
@@ -26,7 +29,7 @@ export function WordCard({
         type="button"
         onClick={() => sentenceExampleMutation.mutate()}
         disabled={isLoadingSentence}
-        className="rounded-[6px] border border-stone-300 bg-linen px-4 py-2 text-sm font-medium text-ink transition enabled:hover:border-stone-400 enabled:hover:bg-paper disabled:cursor-not-allowed disabled:text-stone-400"
+        className="rounded-[6px] border border-stone-300 bg-linen px-3.5 py-1.5 text-xs font-medium text-ink transition enabled:hover:border-stone-400 enabled:hover:bg-paper disabled:cursor-not-allowed disabled:text-stone-400"
       >
         {isLoadingSentence ? 'Finding sentence...' : 'Generate sentence'}
       </button>
@@ -68,14 +71,20 @@ export function WordCard({
           </p>
         ) : null}
         <p className="mt-2 text-lg text-stone-500">"{word.meaning}"</p>
+        <div className="mt-5">
+          <StatusBadge
+            status={status}
+            onStatusChange={(status) => updateWordStatus(word, status)}
+          />
+        </div>
         {sentenceExampleControls}
       </article>
     )
   }
 
   return (
-    <article className="rounded-[2px] border border-stone-200 bg-paper p-5 shadow-subtle transition duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-soft">
-      <div className="flex items-start justify-between gap-4">
+    <article className="rounded-[2px] border border-stone-200 bg-paper p-5 text-center shadow-subtle transition duration-200 hover:-translate-y-0.5 hover:border-stone-300 hover:shadow-soft">
+      <div className="flex flex-col items-center gap-3">
         <div>
           <h3 className="text-4xl font-medium leading-none text-ink">
             {word.kanji}
@@ -92,11 +101,12 @@ export function WordCard({
         </span>
       </div>
       <p className="mt-5 text-sm leading-6 text-stone-700">{word.meaning}</p>
-      {word.status ? (
-        <div className="mt-5">
-          <StatusBadge status={word.status} />
-        </div>
-      ) : null}
+      <div className="mt-5">
+        <StatusBadge
+          status={status}
+          onStatusChange={(status) => updateWordStatus(word, status)}
+        />
+      </div>
       {sentenceExampleControls}
     </article>
   )
